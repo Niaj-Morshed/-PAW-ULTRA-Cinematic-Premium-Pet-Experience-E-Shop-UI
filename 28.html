@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAW ULTRA | Cinematic Experience</title>
+
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/616/616408.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #2dd4bf;
+            --glass: rgba(255, 255, 255, 0.08);
+            --blur: blur(25px);
+            --text: #ffffff;
+            --bg: #020617;
+            --overlay: rgba(2, 6, 23, 0.4);
+        }
+
+        [data-theme="light"] {
+            --bg: #f8fafc;
+            --text: #020617;
+            --glass: rgba(0, 0, 0, 0.05);
+            --overlay: rgba(255, 255, 255, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            transition: 0.5s ease;
+        }
+
+        /* --- Cinematic Background --- */
+        .hero-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(to bottom, var(--overlay), var(--bg)),
+                url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            animation: zoomBG 20s infinite alternate;
+        }
+
+        @keyframes zoomBG {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.15);
+            }
+        }
+
+        /* --- Floating Header --- */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            z-index: 1000;
+            background: var(--glass);
+            backdrop-filter: var(--blur);
+            padding: 15px 40px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Unbounded', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .nav-tools {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-tools i {
+            cursor: pointer;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        #cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: black;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: none;
+        }
+
+        /* Search Bar Style */
+        .search-container {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            display: none;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--accent);
+            background: var(--glass);
+            backdrop-filter: var(--blur);
+            color: var(--text);
+            outline: none;
+        }
+
+        /* --- Hero Content --- */
+        .hero-content {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .hero-content h1 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            line-height: 1;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .hero-content span {
+            color: transparent;
+            -webkit-text-stroke: 1.5px var(--text);
+        }
+
+        .filter-capsule {
+            background: var(--glass);
+            backdrop-filter: var(--blur);
+            padding: 10px;
+            border-radius: 100px;
+            display: inline-flex;
+            gap: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+            position: sticky;
+            top: 100px;
+            z-index: 900;
+        }
+
+        .btn-unique {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 100px;
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            transition: 0.4s;
+            letter-spacing: 1px;
+        }
+
+        .btn-unique.active {
+            background: var(--text);
+            color: var(--bg);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- Glass Grid --- */
+        .grid-wrapper {
+            max-width: 1400px;
+            margin: 100px auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (min-width: 1024px) {
+            .grid-wrapper {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 30px;
+            }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border-radius: 40px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-15px) rotate(2deg);
+            border-color: var(--accent);
+        }
+
+        .img-wrap {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 30px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-price {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: black;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 0.8rem;
+        }
+
+        .glass-card h3 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+
+        .glass-card p {
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+
+        .buy-btn-unique {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--text);
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .glass-card:hover .buy-btn-unique {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+        }
+
+        /* Toast Message */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: black;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 800;
+            display: none;
+            z-index: 2000;
+        }
+
+        footer {
+            text-align: center;
+            padding: 100px 0;
+            background: linear-gradient(transparent, var(--bg));
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero-bg"></div>
+    <div id="toast">Item Added to Collection! ✨</div>
+
+    <nav>
+        <div class="logo">PAW<span>ULTRA</span></div>
+        <div class="nav-tools">
+            <i class="fas fa-moon" id="theme-btn"></i>
+            <i class="fas fa-search" id="search-btn"></i>
+            <i class="fas fa-shopping-cart"><span id="cart-count">0</span></i>
+        </div>
+        <div class="search-container" id="search-box">
+            <input type="text" id="searchInput" placeholder="Search your friend...">
+        </div>
+    </nav>
+
+    <div class="hero-content">
+        <h1>BEYOND THE <br> <span>COMPANION.</span></h1>
+        <div class="filter-capsule">
+            <button class="btn-unique active" onclick="filter('all')">ALL</button>
+            <button class="btn-unique" onclick="filter('dog')">DOGS</button>
+            <button class="btn-unique" onclick="filter('cat')">CATS</button>
+            <button class="btn-unique" onclick="filter('fish')">FISH</button>
+            <button class="btn-unique" onclick="filter('hamster')">HAMSTER</button>
+            <button class="btn-unique" onclick="filter('bird')">BIRDS</button>
+        </div>
+    </div>
+
+    <div class="grid-wrapper" id="mainGrid"></div>
+
+    <footer>
+        <p style="letter-spacing: 5px; opacity: 0.3;">PAWULTRA | © 2026-Developed by Niaj Morshed</p>
+    </footer>
+
+    <script>
+        const products = [{
+                id: 1,
+                name: "Retriever Kit",
+                price: 120.00,
+                cat: "dog",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=600"
+            },
+            {
+                id: 2,
+                name: "Winter Coat",
+                price: 55.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=600"
+            },
+            {
+                id: 4,
+                name: "Persian Bed",
+                price: 85.00,
+                cat: "cat",
+                type: "tall",
+                img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=600"
+            },
+            {
+                id: 3,
+                name: "Hamster Munchies",
+                price: 15.00,
+                cat: "hamster",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?q=80&w=600"
+            },
+            {
+                id: 5,
+                name: "Smart Feeder Pro",
+                price: 199.00,
+                cat: "cat",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1519052537078-e6302a4968d4?q=80&w=600"
+            },
+            {
+                id: 6,
+                name: "Cat Tower 5-Tier",
+                price: 150.00,
+                cat: "cat",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?q=80&w=600"
+            },
+            {
+                id: 7,
+                name: "Cozy Hamster Nest",
+                price: 25.00,
+                cat: "hamster",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1535241749838-299277b6305f?q=80&w=600"
+            },
+            {
+                id: 8,
+                name: "Tall Bird Perch",
+                price: 40.00,
+                cat: "bird",
+                type: "tall",
+                img: "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=600"
+            },
+            {
+                id: 9,
+                name: "Parrot Swing",
+                price: 25.00,
+                cat: "bird",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80&w=600"
+            },
+            {
+                id: 10,
+                name: "Hamster Wheel",
+                price: 19.99,
+                cat: "hamster",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?q=80&w=600"
+            },
+            {
+                id: 12,
+                name: "Coral Tank Elite",
+                price: 450.00,
+                cat: "fish",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?q=80&w=600"
+            },
+            {
+                id: 13,
+                name: "German Shepherd Pro",
+                price: 130.00,
+                cat: "dog",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600"
+            },
+            {
+                id: 14,
+                name: "Pug Grooming Kit",
+                price: 115.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=600"
+            },
+            {
+                id: 15,
+                name: "Beagle Travel Bag",
+                price: 100.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1525253086316-d0c936c814f8?q=80&w=600"
+            },
+            {
+                id: 16,
+                name: "Golden Puppy Set",
+                price: 130.00,
+                cat: "dog",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1507146426996-ef05306b995a?q=80&w=600"
+            },
+            {
+                id: 17,
+                name: "Husky Winter Gear",
+                price: 115.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1561037404-61cd46aa615b?q=80&w=600"
+            },
+            {
+                id: 18,
+                name: "Labrador Food Box",
+                price: 100.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?q=80&w=600"
+            },
+            {
+                id: 19,
+                name: "Cool Cat Shades",
+                price: 30.00,
+                cat: "cat",
+                type: "tall",
+                img: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=600"
+            },
+            {
+                id: 20,
+                name: "Orange Tabby Sofa",
+                price: 110.00,
+                cat: "cat",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1494256997604-768d1f608cac?q=80&w=600"
+            },
+            {
+                id: 21,
+                name: "Kitty Play Tent",
+                price: 45.00,
+                cat: "cat",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?q=80&w=600"
+            },
+            {
+                id: 22,
+                name: "Ginger Cat Scratcher",
+                price: 75.00,
+                cat: "cat",
+                type: "tall",
+                img: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?q=80&w=600"
+            },
+            {
+                id: 23,
+                name: "Luxury Cat Cushion",
+                price: 95.00,
+                cat: "cat",
+                type: "wide",
+                img: "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?q=80&w=600"
+            },
+            {
+                id: 24,
+                name: "Calico Toy Mouse",
+                price: 12.00,
+                cat: "cat",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1511044568932-338cba0ad803?q=80&w=600"
+            },
+            {
+                id: 25,
+                name: "Puppy Health Check",
+                price: 250.00,
+                cat: "dog",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1598133894008-61f7fdb8cc3a?q=80&w=600"
+            },
+            {
+                id: 26,
+                name: "Wild Bird Feeder",
+                price: 55.00,
+                cat: "bird",
+                type: "normal",
+                img: "https://images.unsplash.com/photo-1444464666168-49d633b86797?q=80&w=600"
+            }
+        ];
+
+        const fullList = products;
+        let cartCount = 0;
+        const grid = document.getElementById('mainGrid');
+
+        function render(data) {
+            grid.innerHTML = '';
+            data.forEach((p, index) => {
+                const card = document.createElement('div');
+                card.className = 'glass-card';
+                card.innerHTML = `
+                    <div class="img-wrap">
+                        <span class="card-price">${p.price}</span>
+                        <img src="${p.img}" alt="${p.name}">
+                    </div>
+                    <p style="color:var(--accent); font-weight:800; font-size:10px;">${p.cat.toUpperCase()}</p>
+                    <h3>${p.name}</h3>
+                    <p>Luxury meets comfort.</p>
+                    <button class="buy-btn-unique" onclick="addToCart()">COLLECT NOW</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filter(cat) {
+            document.querySelectorAll('.btn-unique').forEach(b => b.classList.remove('active'));
+            if (event) event.target.classList.add('active');
+            if (cat === 'all') render(fullList);
+            else render(fullList.filter(item => item.cat === cat));
+        }
+
+        // Search Logic
+        document.getElementById('search-btn').onclick = () => {
+            const box = document.getElementById('search-box');
+            box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        };
+
+        document.getElementById('searchInput').oninput = (e) => {
+            const val = e.target.value.toLowerCase();
+            const filtered = fullList.filter(p => p.name.toLowerCase().includes(val));
+            render(filtered);
+        };
+
+        // Cart Logic
+        function addToCart() {
+            cartCount++;
+            const counter = document.getElementById('cart-count');
+            counter.innerText = cartCount;
+            counter.style.display = 'block';
+
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 2000);
+        }
+
+        // Theme Toggle Logic
+        document.getElementById('theme-btn').onclick = function() {
+            const body = document.body;
+            const isDark = body.getAttribute('data-theme') !== 'light';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            this.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        };
+
+        render(fullList);
+    </script>
+</body>
+
+</html>
